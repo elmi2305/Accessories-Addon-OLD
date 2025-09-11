@@ -12,9 +12,8 @@ import java.util.function.Predicate;
 
 public class ACUtils {
 
-    // Change this if your tag names differ
-    public static final String NBT_ACCESSORY_TAG = "Accessories";
-    public static final int MAX_ACCESSORY_SLOTS = 5; // or however many you're using
+    public static final String NBT_ACCESSORY_TAG = "Accessories"; // unused field
+    public static final int MAX_ACCESSORY_SLOTS = 5; // unused field
 
     public static ItemStack getAccessoryAt(EntityPlayer player, int slot) {
         if (player instanceof IPlayerAccessories) {
@@ -26,9 +25,7 @@ public class ACUtils {
         return null;
     }
 
-    /**
-     * Checks if the player has an accessory of the given item.
-     */
+
     public static boolean hasAccessory(EntityPlayer player, Item item) {
         if (player instanceof IPlayerAccessories) {
             for (ItemStack stack : ((IPlayerAccessories) player).getAccessories()) {
@@ -50,7 +47,6 @@ public class ACUtils {
 
     public static boolean hasAnyAccessory(EntityPlayer player, Item... items) {
         if (items == null || items.length == 0) return false;
-        // micro-optimization: check null early
         for (ItemStack stack : getAccessoriesArray(player)) {
             if (stack == null) continue;
             Item it = stack.getItem();
@@ -62,9 +58,6 @@ public class ACUtils {
     }
 
 
-    /**
-     * Finds the first accessory matching a predicate.
-     */
     public static ItemStack findAccessory(EntityPlayer player, java.util.function.Predicate<ItemStack> condition) {
         if (condition == null) return null;
         for (ItemStack stack : getAccessoriesArray(player)) {
@@ -73,9 +66,7 @@ public class ACUtils {
         return null;
     }
 
-    /**
-     * Returns all non-null accessories.
-     */
+
     public static java.util.List<ItemStack> getAllAccessories(EntityPlayer player) {
         java.util.List<ItemStack> out = new java.util.ArrayList<>();
         for (ItemStack stack : getAccessoriesArray(player)) {

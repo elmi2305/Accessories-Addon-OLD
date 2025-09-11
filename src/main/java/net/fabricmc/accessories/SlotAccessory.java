@@ -10,19 +10,16 @@ public class SlotAccessory extends Slot {
         super(inventoryIn, index, xPosition, yPosition);
     }
 
-    /** Only ever allow a single item in this slot */
     @Override
     public int getSlotStackLimit() {
         return 1;
     }
 
-    /** Make sure if someone shift-clicks in a bigger stack, only one goes in */
     @Override
     public boolean isItemValid(ItemStack stack) {
         return stack != null && stack.getItem() instanceof AccessoryItem;
     }
 
-    /** Clamp incoming stacks to size 1 */
     @Override
     public void putStack(ItemStack stack) {
         if (stack != null && stack.stackSize > 1) {
@@ -30,7 +27,7 @@ public class SlotAccessory extends Slot {
             stack.stackSize = 1;
         }
         super.putStack(stack);
-        onSlotChanged();  // still fire your name-print if you want
+        onSlotChanged();
     }
 
     @Override

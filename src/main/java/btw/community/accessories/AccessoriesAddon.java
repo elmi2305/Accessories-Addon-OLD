@@ -45,12 +45,12 @@ public class AccessoriesAddon extends BTWAddon {
     @Override
     public void preInitialize() {
 
-        this.registerProperty("AccessoryAbilityKey", "Y");
+        this.registerProperty("AccessoryAbilityKey", "Y"); // unused key
     }
 
     @Override
     public void handleConfigProperties(Map<String, String> propertyValues) {
-        accessoryKey = propertyValues.get("AccessoryAbilityKey");
+        accessoryKey = propertyValues.get("AccessoryAbilityKey"); // unused key
     }
 
     public void initKeybind(){
