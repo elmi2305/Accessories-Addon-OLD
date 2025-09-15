@@ -53,5 +53,10 @@ public class AccessoryItem extends Item {
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
         list.addAll(tooltipLines);
+        super.addInformation(stack,player,list,advanced);
     }
+    public String getModId() {
+        return "nightmare_mode";
+    }
+
 }

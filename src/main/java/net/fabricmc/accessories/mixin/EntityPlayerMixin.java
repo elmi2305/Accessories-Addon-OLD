@@ -84,10 +84,9 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
 //        }
     }
 
-    // READ at tail, so vanilla fields are all loaded first
     @Inject(
             method = "readEntityFromNBT",
-            at = @At("HEAD")      // ← was HEAD
+            at = @At("HEAD")
     )
     private void readAccessoriesFromNBT(NBTTagCompound tag, CallbackInfo ci) {
         // clear before reading
@@ -510,24 +509,20 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
     }
 
     private void startSwordDash(EntityPlayer attacker) {
-        // Make sure the player is holding a sword
         ItemStack held = attacker.getHeldItem();
         if (held == null || !(held.getItem() instanceof ItemSword)) {
             return;
         }
 
-        // Get look direction vector
         float yaw = attacker.rotationYaw;
-        double dashSpeed = 1.8D; // Slightly less than targeted dash
+        double dashSpeed = 1.8D;
 
-        // Convert yaw to motion vector
         double motionX = -Math.sin(Math.toRadians(yaw)) * dashSpeed;
         double motionZ =  Math.cos(Math.toRadians(yaw)) * dashSpeed;
 
-        // Apply movement
         attacker.motionX = motionX;
         attacker.motionZ = motionZ;
-        attacker.motionY = 0.3D; // Small hop
+        attacker.motionY = 0.3D;
 
         attacker.velocityChanged = true;
     }

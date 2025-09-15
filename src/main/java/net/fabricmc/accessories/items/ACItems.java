@@ -334,7 +334,7 @@ public class ACItems {
                 .addTooltip("\247eBecause everyone loves ice levels");
         waterWalkingBoots = ((AccessoryItem) new AccessoryItem(2649).setUnlocalizedName("acWaterWalkingBoots").setTextureName("acWaterWalkingBoots"))
                 .addTooltip("\2472Allows walking on water")
-                .addTooltip("\247eBiblically accurate accessory");
+                .addTooltip("\247eBiblically accurate bootsies");
         lavaWaders = ((AccessoryItem) new AccessoryItem(2650).setUnlocalizedName("acLavaWaders").setTextureName("acLavaWaders"))
                 .addTooltip("\2472Allows walking on lava")
                 .addTooltip("\2472Grants fire immunity")
