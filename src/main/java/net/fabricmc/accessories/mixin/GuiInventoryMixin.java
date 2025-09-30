@@ -11,26 +11,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiInventory.class)
 public abstract class GuiInventoryMixin extends GuiContainer {
-    private static final ResourceLocation CONTAINER_TEXTURE = new ResourceLocation("textures/gui/exampleBorder222.png");
+    private static final ResourceLocation CONTAINER_TEXTURE = new ResourceLocation("textures/gui/exampleBorder.png");
 
     public GuiInventoryMixin(Container inventorySlotsIn) {
         super(inventorySlotsIn);
     }
-
-    /**
-     * After the vanilla background is drawn, draw our accessory‐slot borders.
-     */
     @Inject(method = "drawGuiContainerBackgroundLayer", at = @At("RETURN"))
     private void drawAccessorySlotBackgrounds(float partialTicks, int mouseX, int mouseY, CallbackInfo ci) {
         // bind the same texture vanilla uses for slots
-        if(this.mc.thePlayer.capabilities.isCreativeMode) return;
+//        if(this.mc.thePlayer.capabilities.isCreativeMode) return;
         this.mc.getTextureManager().bindTexture(CONTAINER_TEXTURE);
         GL11.glColor4f(1F, 0.8F, 0.8F, 0.8F);
 
         for (Object slot : this.inventorySlots.inventorySlots) {
             if (slot instanceof SlotAccessory) {
-                int x = this.guiLeft + ((SlotAccessory) slot).xDisplayPosition-4;
-                int y = this.guiTop  + ((SlotAccessory) slot).yDisplayPosition-6;
+                int x = this.guiLeft + ((SlotAccessory) slot).xDisplayPosition-5;
+                int y = this.guiTop  + ((SlotAccessory) slot).yDisplayPosition-5;
                 this.drawCustomSizedTexture(x, y, 0, 0, 27,27, 27, 27);
             }
         }

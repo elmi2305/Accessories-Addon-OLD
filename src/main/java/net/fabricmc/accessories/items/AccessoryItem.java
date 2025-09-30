@@ -56,7 +56,7 @@ public class AccessoryItem extends Item {
         super.addInformation(stack,player,list,advanced);
     }
     public String getModId() {
-        return "nightmare_mode";
+        return "Accessories Addon";
     }
 
 }

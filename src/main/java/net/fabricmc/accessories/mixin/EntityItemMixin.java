@@ -22,7 +22,7 @@ public abstract class EntityItemMixin extends Entity {
 
     @Inject(method = "onUpdate", at = @At("TAIL"))
     private void manageIncreasedRange(CallbackInfo ci){
-        if (this.delayBeforeCanPickup == 0) {
+        if (this.delayBeforeCanPickup == 0 && !this.worldObj.isRemote) {
             EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this,3);
             if(player != null && ACUtils.hasAnyAccessory(player, ACItems.lootMagnet)){
                 this.setPosition(player.posX,player.posY - player.height / 2 + 0.5,player.posZ);

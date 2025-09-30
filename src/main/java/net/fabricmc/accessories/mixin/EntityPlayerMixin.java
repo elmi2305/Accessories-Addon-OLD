@@ -172,18 +172,37 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
         if(ACUtils.hasAccessory(obj,ACItems.lightningEnchantment)){
             if(source.getSourceOfDamage() instanceof EntityLightningBolt ){
                 cir.setReturnValue(false);
+                return;
             }
-            return;
         }
-        if(ACUtils.isAccessoryReady(obj, ACItems.katanaEnchantment) && isBlockingWithSword(obj)){
+        if(ACUtils.isAccessoryReady(obj, ACItems.katanaEnchantment) && isBlockingWithSword(obj)) {
             if (source.getSourceOfDamage() instanceof EntityLivingBase attacker) {
-                attacker.attackEntityFrom(DamageSource.causePlayerDamage(obj), par2 * 1.5f);
+                this.doKatanaDamage(attacker,obj,par2);
+                cir.setReturnValue(false);
+            } else if (source.getSourceOfDamage() instanceof EntityArrow arrow && arrow.shootingEntity instanceof EntityLivingBase attacker) {
+                if (this == attacker) return;
+                EntityArrow reflectedArrow = new EntityArrow(this.worldObj);
+                reflectedArrow.copyLocationAndAnglesFrom(arrow);
+                reflectedArrow.motionX = -arrow.motionX / 1.5;
+                reflectedArrow.motionY = -arrow.motionY;
+                reflectedArrow.motionZ = -arrow.motionZ / 1.5;
+                reflectedArrow.shootingEntity = this;
+                arrow.setDead();
+
+                this.worldObj.spawnEntityInWorld(reflectedArrow);
                 this.swingItem();
                 this.getHeldItem().attemptDamageItem(6 + this.rand.nextInt(6), this.rand);
                 ACUtils.resetAccessoryCooldown(obj, ACItems.katanaEnchantment);
                 cir.setReturnValue(false);
             }
         }
+    }
+    @Unique
+    private void doKatanaDamage(EntityLivingBase attacker, EntityPlayer obj, float par2){
+        attacker.attackEntityFrom(DamageSource.causePlayerDamage(obj), par2 * 1.5f);
+        this.swingItem();
+        this.getHeldItem().attemptDamageItem(6 + this.rand.nextInt(6), this.rand);
+        ACUtils.resetAccessoryCooldown(obj, ACItems.katanaEnchantment);
     }
 
 
@@ -409,13 +428,12 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
 
 
 
-// Check if player has either accessory equipped
         boolean hasWaterBoots = ACUtils.hasAccessory(obj, ACItems.waterWalkingBoots);
         boolean hasLavaBoots = ACUtils.hasAccessory(obj, ACItems.lavaWaders);
 
         if (hasWaterBoots || hasLavaBoots) {
             int x = MathHelper.floor_double(obj.posX);
-            int y = MathHelper.floor_double(obj.boundingBox.minY - 0.01D);
+            int y = MathHelper.floor_double(obj.boundingBox.minY - 0.1D);
             int z = MathHelper.floor_double(obj.posZ);
 
             Block blockBelow = Block.blocksList[obj.worldObj.getBlockId(x, y, z)];
@@ -425,18 +443,16 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
             boolean isLava = blockBelow == Block.lavaStill || blockBelow == Block.lavaMoving;
 
             if ((isWater && hasWaterBoots) || (isLava && hasLavaBoots)) {
-                // Push them up so they don't sink
-                if (obj.motionY < 0) obj.motionY = 0;
+                if(obj.posY > y + 0.9) {
+                    if (obj.motionY < 0) obj.motionY = 0;
+                }
 
-                // Keep them exactly at the surface
                 obj.onGround = true;
                 obj.fallDistance = 0F;
 
-                // Apply ice-like friction
                 obj.moveFlying(obj.moveStrafing, obj.moveForward, 0.02F);
 
-                // Prevent sinking visually
-                obj.posY = y + 1.0D;
+                obj.posY = y + 0.9;
                 if(hasLavaBoots && this.isBurning()){
                     obj.extinguish();
                 }

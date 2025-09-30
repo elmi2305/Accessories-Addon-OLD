@@ -34,18 +34,24 @@ public abstract class BlockLogMixin extends BlockRotatedPillar {
         EntityPlayer player = world.getClosestPlayer(x,y,z, 7);
         if(player == null) return;
         ItemStack held = player.getHeldItem();
+        if(held == null) return;
         if (held.getItem() instanceof AxeItem axe && ACUtils.hasAccessory(player, ACItems.woodEnchantment)) {
             this.wasEfficientlyMined = true;
             if (axe == Item.axeStone) {
                 dropItem(world, x, y, z, new ItemStack(Item.stick, 4));
                 dropItem(world, x, y, z, new ItemStack(BTWItems.sawDust, 6));
                 dropItem(world, x, y, z, new ItemStack(BTWItems.bark, 4, meta));
+                return;
+
             }
+
             if (axe == Item.axeIron) {
                 dropItem(world, x, y, z, new ItemStack(Item.stick, 6));
                 dropItem(world, x, y, z, new ItemStack(BTWItems.sawDust, 4));
                 dropItem(world, x, y, z, new ItemStack(Block.planks, 2, meta));
                 dropItem(world, x, y, z, new ItemStack(BTWItems.bark, 4, meta));
+                return;
+
 
             }
             if (axe == Item.axeGold) {
@@ -53,13 +59,24 @@ public abstract class BlockLogMixin extends BlockRotatedPillar {
                 dropItem(world, x, y, z, new ItemStack(BTWItems.sawDust, 16));
                 dropItem(world, x, y, z, new ItemStack(BTWItems.bark, 8, meta));
                 dropItem(world, x, y, z, new ItemStack(Block.planks, 2, meta));
+                return;
             }
+
             if (axe == Item.axeDiamond) {
                 dropItem(world, x, y, z, new ItemStack(Block.planks, 6, meta));
+                return;
+
             }
+
             if (axe == BTWItems.steelAxe) {
                 dropItem(world, x, y, z, new ItemStack(Block.planks, 8, meta));
+                return;
+
             }
+            if (axe.toolMaterial.getHarvestLevel() > 2) {
+                dropItem(world, x, y, z, new ItemStack(Block.planks, 4, meta));
+            }
+
         }
     }
 //

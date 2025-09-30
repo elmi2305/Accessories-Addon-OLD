@@ -16,8 +16,8 @@ public abstract class ContainerPlayerMixin extends Container {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onInit(InventoryPlayer inventory, boolean isLocal, EntityPlayer player, CallbackInfo ci) {
-        if(player.capabilities.isCreativeMode) return;
-        IInventory accessoryInv = ((IPlayerAccessories) player).getAccessoryInventory(); // now persistent
+//        if(player.capabilities.isCreativeMode) return;
+        IInventory accessoryInv = ((IPlayerAccessories) player).getAccessoryInventory();
 
         for (int i = 0; i < 6; ++i) {
             this.addSlotToContainer(new SlotAccessory(accessoryInv, i, 80 + 100, 13 + i * 25));
