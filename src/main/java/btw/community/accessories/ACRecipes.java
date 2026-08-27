@@ -1,10 +1,10 @@
 package btw.community.accessories;
 
+import api.util.color.Color;
 import btw.block.BTWBlocks;
 import btw.crafting.manager.MillStoneCraftingManager;
 import btw.crafting.recipe.RecipeManager;
 import btw.item.BTWItems;
-import btw.util.color.Color;
 import net.fabricmc.accessories.items.ACItems;
 import net.minecraft.src.Block;
 import net.minecraft.src.Item;

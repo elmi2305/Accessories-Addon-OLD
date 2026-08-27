@@ -1,7 +1,6 @@
 package net.fabricmc.accessories.mixin;
 
 import btw.community.accessories.ACUtils;
-import btw.world.util.difficulty.Difficulty;
 import net.fabricmc.accessories.items.ACItems;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.FoodStats;
@@ -27,8 +26,8 @@ public class FoodStatsMixin {
     }
 
 
-    @Redirect(method = "onUpdate", at = @At(value = "INVOKE", target = "Lbtw/world/util/difficulty/Difficulty;getHealthRegenDelayMultiplier()F"))
-    private float customHealthMultiplierBasedOnAccessories(Difficulty instance) {
+    @Redirect(method = "onUpdate", at = @At(value = "INVOKE", target = "Ljava/lang/Float;floatValue()F"))
+    private float customHealthMultiplierBasedOnAccessories(Float instance) {
         float healthRegenMultiplier = 1.0f; // base value
 
         if (this.player != null) {
@@ -56,7 +55,7 @@ public class FoodStatsMixin {
         }
 
 
-        return instance.getHealthRegenDelayMultiplier() * healthRegenMultiplier;
+        return instance * healthRegenMultiplier;
     }
 
 

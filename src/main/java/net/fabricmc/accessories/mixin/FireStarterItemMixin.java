@@ -1,8 +1,7 @@
 package net.fabricmc.accessories.mixin;
 
+import api.item.items.FireStarterItem;
 import btw.community.accessories.ACUtils;
-import btw.item.items.FireStarterItem;
-import btw.world.util.WorldUtils;
 import net.fabricmc.accessories.items.ACItems;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
@@ -19,16 +18,11 @@ import java.util.Random;
 
 @Mixin(FireStarterItem.class)
 public abstract class FireStarterItemMixin {
-    @Shadow public abstract boolean checkChanceOfStart(ItemStack itemStack, Random random);
+    @Shadow protected abstract boolean checkChanceOfStart(ItemStack itemStack, Random random);
 
     @Shadow protected abstract boolean attemptToLightBlock(ItemStack stack, World world, int i, int j, int k, int iFacing);
 
-
     @Shadow protected abstract void performUseEffects(EntityPlayer player);
-
-    @Shadow public abstract void notifyNearbyAnimalsOfAttempt(EntityPlayer player);
-
-    @Shadow @Final private float exhaustionPerUse;
 
     @Inject(method = "onItemUse", at = @At(value = "HEAD"))
     private void editChanceOfFireStarter(ItemStack stack, EntityPlayer player, World world, int i, int j, int k, int iFacing, float fClickX, float fClickY, float fClickZ, CallbackInfoReturnable<Boolean> cir){

@@ -1,7 +1,7 @@
 package net.fabricmc.accessories.mixin;
 
+import api.entity.mob.behavior.MultiTemptBehavior;
 import btw.community.accessories.ACUtils;
-import btw.entity.mob.behavior.MultiTemptBehavior;
 import net.fabricmc.accessories.items.ACItems;
 import net.minecraft.src.EntityAIBase;
 import net.minecraft.src.EntityAgeable;

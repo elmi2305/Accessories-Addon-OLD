@@ -1,6 +1,5 @@
 package net.fabricmc.accessories.items;
 
-import com.google.common.collect.Multimap;
 import net.minecraft.src.*;
 
 public class ItemSoulSword extends ItemSword {

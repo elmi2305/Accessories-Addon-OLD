@@ -32,6 +32,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
 
     @Shadow public abstract ItemStack getHeldItem();
 
+    @Shadow public Container openContainer;
     private final ItemStack[] accessories = new ItemStack[6];
     private final InventoryBasic accessoryInventoryBacking = new InventoryBasic("Accessories", false, accessories.length);
 
@@ -41,6 +42,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
 
     @Override
     public ItemStack[] getAccessories() {
+        syncAccessoriesFromInventory();
         return this.accessories;
     }
 
@@ -67,6 +69,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
             at = @At("HEAD")      // ← was HEAD
     )
     private void writeAccessoriesToNBT(NBTTagCompound tag, CallbackInfo ci) {
+        syncAccessoriesFromInventory();
         NBTTagList list = new NBTTagList();
         for (int i = 0; i < accessories.length; i++) {
             if (accessories[i] != null) {
@@ -82,6 +85,13 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
 //        for (int i = 0; i < accessories.length; i++) {
 //            System.out.println("Slot " + i + ": " + accessories[i]);
 //        }
+    }
+
+    @Unique
+    private void syncAccessoriesFromInventory() {
+        for (int i = 0; i < this.accessories.length; i++) {
+            this.accessories[i] = this.accessoryInventoryBacking.getStackInSlot(i);
+        }
     }
 
     @Inject(

@@ -15,6 +15,7 @@
     "EntityItemMixin",
     "EntityLivingBaseMixin",
     "EntityPlayerMixin",
+    "EntityPlayerMPAccessor",
     "EntitySkeletonMixin",
     "EntityWitherMixin",
     "FireStarterItemMixin",
@@ -25,9 +26,11 @@
   ],
   "client": [
     "BTWRenderMapperMixin",
+    "GameSettingsMixin",
     "GuiContainerMixin",
     "GuiIngameMixin",
-    "GuiInventoryMixin"
+    "GuiInventoryMixin",
+    "NetClientHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

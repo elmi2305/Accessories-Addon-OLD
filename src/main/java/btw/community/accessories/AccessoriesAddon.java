@@ -1,20 +1,22 @@
 package btw.community.accessories;
 
-import btw.AddonHandler;
-import btw.BTWAddon;
+
+import api.AddonHandler;
+import api.BTWAddon;
+import api.config.AddonConfig;
+import net.fabricmc.accessories.ContainerAccessories;
+import net.fabricmc.accessories.IPlayerAccessories;
 import net.fabricmc.accessories.items.ACItems;
-import net.minecraft.src.GameSettings;
-import net.minecraft.src.KeyBinding;
-import net.minecraft.src.Minecraft;
+import net.minecraft.src.*;
 import org.lwjgl.input.Keyboard;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AccessoriesAddon extends BTWAddon {
+    // Packet250 channel names are capped at 20 characters in this Minecraft version.
+    public static final String OPEN_ACCESSORIES_CHANNEL = "accessories|OA";
+
     private static AccessoriesAddon instance;
 
     public AccessoriesAddon() {
@@ -35,7 +37,70 @@ public class AccessoriesAddon extends BTWAddon {
         AddonHandler.logMessage(this.getName() + " Version " + this.getVersionString() + " Initializing...");
         ACItems.initItems();
         ACRecipes.initRecipes();
+
+        // The handler is registered on both physical sides. Only a server player can
+        // open the authoritative container; a client receives the resulting
+        // Packet100OpenWindow in NetClientHandlerMixin.
+        this.registerPacketHandler(OPEN_ACCESSORIES_CHANNEL, (packet, player) -> {
+            if (player instanceof EntityPlayerMP) {
+                openAccessoriesFor((EntityPlayerMP) player);
+            }
+        });
     }
+
+    /** Sends a client-to-server request. The client must not create this container itself. */
+    public static void requestOpenAccessories(EntityClientPlayerMP player) {
+        player.sendQueue.addToSendQueue(new Packet250CustomPayload(OPEN_ACCESSORIES_CHANNEL, new byte[0]));
+    }
+
+    private static void openAccessoriesFor(EntityPlayerMP player) {
+        int windowId = player.incrementAndGetWindowID();
+        IInventory accessoryInventory = ((IPlayerAccessories) player).getAccessoryInventory();
+
+        player.playerNetServerHandler.sendPacketToPlayer(new Packet100OpenWindow(
+                windowId,
+                42,
+                "Accessories",
+                accessoryInventory.getSizeInventory(),
+                accessoryInventory.isInvNameLocalized()
+        ));
+
+        player.openContainer = new ContainerAccessories(player.inventory, accessoryInventory, player);
+        player.openContainer.windowId = windowId;
+        player.openContainer.onCraftGuiOpened(player);
+    }
+
+    public void displayGUIAccessories(EntityPlayerMP p, IInventory accessoryInventory) {
+        // Kept as the single server-side entry point for any future callers.
+        if (p != null) {
+            openAccessoriesFor(p);
+        }
+    }
+
+
+//    private static Packet250CustomPayload createOpenMenuPacket(EntityPlayer player) {
+//        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+//        DataOutputStream dataStream = new DataOutputStream(byteStream);
+//
+//        try {
+//            dataStream.writeInt(player.entityId);       // horse entity ID
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return new Packet250CustomPayload("nm|HorseProg", byteStream.toByteArray());
+//    }
+//
+//    public static void sendHorseProgressToAll(EntityHorse horse, int progress) {
+//        Packet250CustomPayload packet = createHorseProgressPacket(horse.entityId, progress);
+//        for (Object playerObj : MinecraftServer.getServer().getConfigurationManager().playerEntityList) {
+//            if (playerObj instanceof EntityPlayerMP player && player.ridingEntity instanceof EntityHorse) {
+//                if (player.getDistanceSqToEntity(horse) < 8 * 8) {
+//                    player.playerNetServerHandler.sendPacketToPlayer(packet);
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -44,13 +109,20 @@ public class AccessoriesAddon extends BTWAddon {
 
     @Override
     public void preInitialize() {
-
-        this.registerProperty("AccessoryAbilityKey", "Y"); // unused key
+        super.preInitialize();
     }
 
     @Override
-    public void handleConfigProperties(Map<String, String> propertyValues) {
-        accessoryKey = propertyValues.get("AccessoryAbilityKey"); // unused key
+    public void registerConfigProperties(AddonConfig config) {
+        super.registerConfigProperties(config);
+        config.registerString("AccessoryAbilityKey", "Y");
+
+    }
+
+    @Override
+    public void handleConfigProperties(AddonConfig config) {
+        super.handleConfigProperties(config);
+        accessoryKey = config.getString("AccessoryAbilityKey"); // unused key
     }
 
     public void initKeybind(){

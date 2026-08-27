@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(GuiContainer.class)
 public class GuiContainerMixin {
-    @Redirect(method = "mouseClicked", at = @At(value = "FIELD", target = "Lnet/minecraft/src/GuiContainer;xSize:I"))
-    private int increaseSize(GuiContainer container){
-        if(container instanceof GuiInventory) {return container.getxSize() + 40;}
-        return container.getxSize();
-    }
+//    @Redirect(method = "mouseClicked", at = @At(value = "FIELD", target = "Lnet/minecraft/src/GuiContainer;xSize:I"))
+//    private int increaseSize(GuiContainer container){
+//        if(container instanceof GuiInventory) {return container.getxSize() + 40;}
+//        return container.getxSize();
+//    }
 
 }

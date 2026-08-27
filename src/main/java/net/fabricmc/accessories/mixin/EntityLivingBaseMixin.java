@@ -61,7 +61,7 @@ public abstract class EntityLivingBaseMixin extends Entity implements EntityAcce
 
             // Only trigger extra jump if conditions are right
             if (maxExtraJumps > 0 && this.playerJumpCount < maxExtraJumps && this.jumpTicks < 5) {
-                System.out.println("Extra jump " + (this.playerJumpCount + 1));
+//                System.out.println("Extra jump " + (this.playerJumpCount + 1));
                 this.playerJumpCount++;
                 this.jump();
                 this.jumpTicks = 10;
@@ -69,7 +69,7 @@ public abstract class EntityLivingBaseMixin extends Entity implements EntityAcce
         }
         if (this.getIsGrounded() && this.playerJumpCount != 0) {
             this.playerJumpCount = 0;
-            System.out.println("Reset jump count");
+//            System.out.println("Reset jump count");
         }
     }
 

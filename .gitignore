@@ -1,6 +1,7 @@
 # gradle
 .gradle/
 build/
+build_BTW/
 out/
 classes/
 
@@ -25,3 +26,5 @@ run/
 
 # macos
 *.DS_Store
+/build_BTW/
+/build_BTW/BTW_dev/

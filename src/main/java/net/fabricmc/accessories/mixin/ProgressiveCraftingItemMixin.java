@@ -1,7 +1,7 @@
 package net.fabricmc.accessories.mixin;
 
+import api.item.items.ProgressiveCraftingItem;
 import btw.community.accessories.ACUtils;
-import btw.item.items.ProgressiveCraftingItem;
 import net.fabricmc.accessories.items.ACItems;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
