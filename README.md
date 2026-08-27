@@ -1,78 +1,60 @@
-# Fabric Example Mod
+# Accessories Addon
 
-- [Quick start guide](#quick-start-guide)
-  - [Introduction to the folder structure](#introduction-to-the-folder-structure)
-  - [Creating your mod](#creating-your-mod)
-  - [Useful gradle commands](#useful-gradle-commands)
-- [More info](#more-info)
-- [License](#license)
+Accessories is a Better Than Wolves Community Edition addon for Minecraft 1.6.4. It adds a collection of equippable trinkets—accessories with movement, combat, utility, and survival effects—and an accessory inventory that is stored with the player.
 
-## Quick start guide
+## Features
 
-* Clone this repository
-* Launch the *install.bat*
-* Wait till it fully finishes
-* Run the gradle task *build* and then *runClient*
+- Six dedicated accessory slots, opened from the player inventory.
+- Server-authoritative inventory handling: multiplayer clicks, slot updates, and saves are validated by the server.
+- A broad set of accessory items, including balloons, boots, shields, pendants, gloves, magnets, and enchantment-style trinkets.
+- Gameplay effects such as altered fall damage, movement, reach, damage, loot collection, water/lava walking, and more.
+- Recipes and item assets integrated with Better Than Wolves Community Edition.
 
-### Introduction to the folder structure
+## Requirements
 
-**Build files:**
+- Java 17
+- Minecraft 1.6.4
+- Better Than Wolves Community Edition 3.1.0
+- Fabric Loader 0.18.4 or newer
 
-| File                | Description                                              |
-| ------------------- | -------------------------------------------------------- |
-| `build.gradle`      | Configures the compilation process.                      |
-| `gradle.properties` | Contains properties for Minecraft, fabric, and your mod. |
-| `settings.gradle`   | Configures the plugin repositories.                      |
+Both the client and server need the addon installed for the accessory inventory and effects to work in multiplayer.
 
-**Fabric files:**
+## Development setup
 
-These files are located at `src/main/resources`.
+The project uses Gradle and Fabric Loom. The BTW development archive and mappings are generated locally; they are intentionally not committed.
 
-| File                    | Description                              | Additional information                                                                                                |
-| ----------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `fabric.mod.json`       | Contains metadata about your mod.        | [wiki:fabric_mod_json_spec](https://fabricmc.net/wiki/documentation:fabric_mod_json_spec)                             |
-| `modid.mixins.json`     | Contains a list of all your mixin files. | [wiki:mixin_registration](https://fabricmc.net/wiki/tutorial:mixin_registration)                                      |
-| `assets/modid/icon.png` | The icon of your mod.                    | [wiki:fabric_mod_json_spec#icon](https://fabricmc.net/wiki/documentation:fabric_mod_json_spec?s[]=icon#custom_fields) |
+On Windows, run:
 
-
-### Creating your mod
-
-First of you must replace all occurrences of `modid` with the id of your mod.
-
-If your mod doesn't use mixins you can safely remove the mixin entry in your `fabric.mod.json` as well as delete any `*.mixin.json` files.
-
-This template has the legacy fabric api included in it's build script, more info about the api can be found at it's [github repo](https://github.com/Legacy-Fabric/fabric).
-If you know what you are doing you can also safely remove the api from the build script as it isn't required.
-
-### Useful gradle commands
-
-```sh
-# Compile your mod
-./gradlew build
-
-# Remove old build files
-./gradlew clean
-
-# Generate Minecraft sources
-./gradlew genSources
-
-# Launch a modded Minecraft client
-./gradlew runClient
-
-# Kill gradle if it's doing stupid things
-./gradlew --stop
+```bat
+install.bat
 ```
 
-## More info
+On Linux or macOS, run:
 
-Additional tutorials and tips can be found in the [wiki](https://github.com/Legacy-Fabric/fabric-example-mod/wiki).
+```sh
+./install.sh
+```
 
-For more detailed setup instructions please see the [fabric wiki](https://fabricmc.net/wiki/tutorial:setup).
+These scripts download and prepare the required BTW development files under `build_BTW/` and `custom_mappings/`.
 
-If you are new to fabric or Minecraft modding in general then [this wiki page](https://fabricmc.net/wiki/tutorial:primer) may help you.
+## Build
+
+```sh
+./gradlew build
+```
+
+On Windows, use `gradlew.bat build`. The built addon JAR is written to `build/libs/`.
+
+## Project layout
+
+- `src/main/java/btw/community/accessories/` — addon initialization, recipes, and gameplay helpers.
+- `src/main/java/net/fabricmc/accessories/` — accessory inventory, container, GUI, items, and mixins.
+- `src/main/resources/` — Fabric/BTW metadata, mixin configuration, translations, textures, and other assets.
+- `BTWSRC/` — read-only reference source for BTW and vanilla Minecraft; it is not addon source code.
+- `build_BTW/` and `custom_mappings/` — generated local development inputs.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
-This project incorporates:
-* A precompiled version of [Tiny Remapper](https://github.com/FabricMC/tiny-remapper) (LGPL-3.0)
+This project is licensed under the [MIT License](LICENSE).
+
+The development workflow includes a precompiled copy of [Tiny Remapper](https://github.com/FabricMC/tiny-remapper), which is licensed under LGPL-3.0. Its license remains applicable to that dependency.
