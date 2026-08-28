@@ -6,17 +6,16 @@ public class ContainerAccessories extends Container {
     private final EntityPlayer thePlayer;
     private final IInventory accessoryInv; // your custom accessory inventory
 
-    // how many accessory slots you want
-    private static final int ACCESSORY_COUNT = 6;
+    private final int accessoryCount;
 
-    public ContainerAccessories(InventoryPlayer playerInv, IInventory accessoryInv, EntityPlayer player) {
+    public ContainerAccessories(InventoryPlayer playerInv, IInventory accessoryInv, EntityPlayer player, int accessoryCount) {
         this.thePlayer = player;
         this.accessoryInv = accessoryInv;
+        this.accessoryCount = Math.min(accessoryInv.getSizeInventory(), accessoryCount);
 
-        // ---- 1. Add your accessory slots (0 → ACCESSORY_COUNT-1) ----
-        for (int i = 0; i < ACCESSORY_COUNT; i++) {
-            // Position them wherever in GUI
-            this.addSlotToContainer(new SlotAccessory(accessoryInv, i, 80, 8 + i * 18));
+        // Slots are a horizontal row so every supported capacity fits the same inventory width.
+        for (int i = 0; i < this.accessoryCount; i++) {
+            this.addSlotToContainer(new SlotAccessory(accessoryInv, i, 8 + i * 18, 18));
         }
 
         // ---- 2. Add player inventory (same as ContainerPlayer, MUST match) ----
@@ -49,6 +48,10 @@ public class ContainerAccessories extends Container {
         return true;
     }
 
+    public int getAccessoryCount() {
+        return accessoryCount;
+    }
+
     // ---- 3. Item shift-clicking support ----
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int index) {
@@ -60,20 +63,20 @@ public class ContainerAccessories extends Container {
             original = stack.copy();
 
             // slot ranges:
-            // 0 → ACCESSORY_COUNT-1: accessory slots
-            // ACCESSORY_COUNT → end: player inventory
+            // 0 → accessoryCount-1: accessory slots
+            // accessoryCount → end: player inventory
 
-            if (index < ACCESSORY_COUNT) {
+            if (index < accessoryCount) {
                 // from accessory → to player inventory
                 if (!this.mergeItemStack(stack,
-                        ACCESSORY_COUNT,
+                        accessoryCount,
                         this.inventorySlots.size(),
                         true)) {
                     return null;
                 }
             } else {
                 // from player inventory → accessory slots
-                if (!this.mergeItemStack(stack, 0, ACCESSORY_COUNT, false)) {
+                if (!this.mergeItemStack(stack, 0, accessoryCount, false)) {
                     return null;
                 }
             }

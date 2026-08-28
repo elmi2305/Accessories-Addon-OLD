@@ -15,6 +15,7 @@ public class EntityWitherMixin extends EntityMob {
 
     @Inject(method = "dropFewItems", at = @At("TAIL"))
     private void dropDust(boolean par1, int par2, CallbackInfo ci){
+        this.entityDropItem(new ItemStack(ACItems.witheredCore), 0.0f);
         int dust = (int) ((this.rand.nextInt(10) + 6) * (par2 + 1) * 0.85f);
         for (int iTempCount = 0; iTempCount < dust; ++iTempCount) {
             this.dropItem(ACItems.witherDust.itemID, 1);

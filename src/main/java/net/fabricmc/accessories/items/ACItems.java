@@ -1,5 +1,6 @@
 package net.fabricmc.accessories.items;
 
+import btw.community.accessories.AccessoriesProgressData;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.Item;
@@ -84,6 +85,9 @@ public class ACItems {
     public static Item plantyMush;
     public static Item enderRod;
     public static Item witherDust;
+    public static Item portalSigil;
+    public static Item witheredCore;
+    public static Item dragonHeart;
 
 
 
@@ -110,6 +114,9 @@ public class ACItems {
         plantyMush = new Item(2715).setUnlocalizedName("acPlantyMush").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("acPlantyMush");
         enderRod = new Item(2716).setUnlocalizedName("acEnderRod").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("acEnderRod");
         witherDust = new Item(2717).setUnlocalizedName("acWitherDust").setCreativeTab(CreativeTabs.tabMaterials).setTextureName("acWitherDust");
+        portalSigil = new ItemAccessorySlotUpgrade(2718, AccessoriesProgressData.PORTAL_SLOT_UNLOCKED).setUnlocalizedName("acPortalSigil").setTextureName("acPortalSigil");
+        witheredCore = new ItemAccessorySlotUpgrade(2719, AccessoriesProgressData.WITHER_SLOT_UNLOCKED).setUnlocalizedName("acWitheredCore").setTextureName("acWitheredCore");
+        dragonHeart = new ItemAccessorySlotUpgrade(2720, AccessoriesProgressData.DRAGON_SLOT_UNLOCKED).setUnlocalizedName("acDragonHeart").setTextureName("acDragonHeart");
     }
 
 

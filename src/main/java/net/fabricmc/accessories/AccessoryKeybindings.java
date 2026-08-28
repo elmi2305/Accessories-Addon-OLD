@@ -32,6 +32,6 @@ public final class AccessoryKeybindings {
      * All custom bindings to append.
      */
     public static KeyBinding[] all() {
-        return new KeyBinding[]{accessorySpecialKey, accessorySpecialKey };
+        return new KeyBinding[]{accessorySpecialKey};
     }
 }

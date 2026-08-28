@@ -19,7 +19,8 @@ public class NetClientHandlerMixin {
             ContainerAccessories container = new ContainerAccessories(
                     player.inventory,
                     ((IPlayerAccessories) player).getAccessoryInventory(),
-                    player
+                    player,
+                    packet.slotsCount
             );
             // Click packets are accepted only when this exactly matches the
             // container window ID created by the server.

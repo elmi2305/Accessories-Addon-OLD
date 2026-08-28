@@ -35,6 +35,7 @@ public class AccessoriesAddon extends BTWAddon {
     @Override
     public void initialize() {
         AddonHandler.logMessage(this.getName() + " Version " + this.getVersionString() + " Initializing...");
+        AccessoriesProgressData.register();
         ACItems.initItems();
         ACRecipes.initRecipes();
 
@@ -61,11 +62,12 @@ public class AccessoriesAddon extends BTWAddon {
                 windowId,
                 42,
                 "Accessories",
-                accessoryInventory.getSizeInventory(),
+                AccessoriesProgressData.getAccessorySlotCount(player),
                 accessoryInventory.isInvNameLocalized()
         ));
 
-        player.openContainer = new ContainerAccessories(player.inventory, accessoryInventory, player);
+        player.openContainer = new ContainerAccessories(player.inventory, accessoryInventory, player,
+                AccessoriesProgressData.getAccessorySlotCount(player));
         player.openContainer.windowId = windowId;
         player.openContainer.onCraftGuiOpened(player);
     }

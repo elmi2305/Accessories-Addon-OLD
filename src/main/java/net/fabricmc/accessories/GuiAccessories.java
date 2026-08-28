@@ -12,6 +12,7 @@ public class GuiAccessories extends GuiInventory {
 
     private final EntityPlayer player;
     private boolean accessoryButtonHover = false;
+    private ResourceLocation guiTexture;
 
     public GuiAccessories(EntityPlayer player, ContainerAccessories container) {
         super(player);
@@ -40,8 +41,9 @@ public class GuiAccessories extends GuiInventory {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partial, int mx, int my) {
-        // Draw default player inventory background
-        mc.getTextureManager().bindTexture(new ResourceLocation("textures/gui/accessoriesInventoryGui.png"));
+        int slotCount = ((ContainerAccessories) this.inventorySlots).getAccessoryCount();
+        guiTexture = new ResourceLocation("textures/gui/accessoriesInventoryGui_" + slotCount + ".png");
+        mc.getTextureManager().bindTexture(guiTexture);
         int x = this.guiLeft;
         int y = this.guiTop;
         this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);

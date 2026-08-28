@@ -1,6 +1,7 @@
 package net.fabricmc.accessories.mixin;
 
 import btw.community.accessories.ACUtils;
+import btw.community.accessories.AccessoriesProgressData;
 import net.fabricmc.accessories.IPlayerAccessories;
 import net.fabricmc.accessories.items.ACItems;
 import net.fabricmc.accessories.items.AccessoryItem;
@@ -33,7 +34,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
     @Shadow public abstract ItemStack getHeldItem();
 
     @Shadow public Container openContainer;
-    private final ItemStack[] accessories = new ItemStack[6];
+    private final ItemStack[] accessories = new ItemStack[AccessoriesProgressData.MAX_ACCESSORY_SLOTS];
     private final InventoryBasic accessoryInventoryBacking = new InventoryBasic("Accessories", false, accessories.length);
 
     public EntityPlayerMixin(World par1World) {
@@ -43,7 +44,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IPla
     @Override
     public ItemStack[] getAccessories() {
         syncAccessoriesFromInventory();
-        return this.accessories;
+        return Arrays.copyOf(this.accessories, AccessoriesProgressData.getAccessorySlotCount((EntityPlayer) (Object) this));
     }
 
     @Override
